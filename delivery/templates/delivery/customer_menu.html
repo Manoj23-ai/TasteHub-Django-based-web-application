@@ -1,0 +1,102 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Mate - Menu</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <div class="customer-menu-page">
+
+        <header class="customer-menu-header">
+            <div>
+                <h1>Meal Mate</h1>
+                <p>Welcome, {{ username }}!</p>
+            </div>
+
+            <a href="{% url 'show_cart' username %}" class="cart-button">
+                🛒 Go to Cart
+            </a>
+        </header>
+        {% if messages %}
+    <div class="cart-notification-container">
+        {% for message in messages %}
+            <div class="cart-notification {{ message.tags }}">
+                <span class="notification-icon">✓</span>
+                <span>{{ message }}</span>
+                <a href="{% url 'show_cart' username %}">View Cart</a>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+        <main class="customer-menu-content">
+            <div class="customer-menu-title">
+                <h2>Explore Our Menu</h2>
+                <p>Discover delicious dishes and add your favourites to your cart.</p>
+            </div>
+
+            <div class="customer-food-grid">
+
+                {% for item in itemList %}
+
+                <article class="customer-food-card">
+
+                    <img
+                        class="customer-food-image"
+                        src="{{ item.picture }}"
+                        alt="{{ item.name }}"
+                    >
+
+                    <div class="customer-food-details">
+
+                        <h3>{{ item.name }}</h3>
+
+                        <p class="customer-food-description">
+                            {{ item.description }}
+                        </p>
+
+                        <div class="customer-food-meta">
+
+                            <span class="customer-food-price">
+                                ₹{{ item.price }}
+                            </span>
+
+                            {% if item.vegeterian %}
+                                <span class="food-type veg">● Vegetarian</span>
+                            {% else %}
+                                <span class="food-type non-veg">● Non-vegetarian</span>
+                            {% endif %}
+
+                        </div>
+
+                        <a
+                            href="{% url 'add_to_cart' item.id username %}"
+                            class="customer-add-cart"
+                        >
+                            Add to Cart
+                        </a>
+
+                    </div>
+
+                </article>
+
+                {% empty %}
+
+                <div class="customer-empty-menu">
+                    <h3>No menu items available</h3>
+                    <p>Please check back later for delicious dishes.</p>
+                </div>
+
+                {% endfor %}
+
+            </div>
+        </main>
+
+    </div>
+
+</body>
+</html>

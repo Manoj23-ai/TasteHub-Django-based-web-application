@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Summary - Meal Mate</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <div class="order-summary-page">
+
+        <div class="order-summary-card">
+
+            <div class="order-success-icon">✓</div>
+
+            <h1>Thank You, {{ username }}!</h1>
+
+            <p class="order-success-message">
+                Your order has been placed successfully.
+            </p>
+
+            <div class="order-summary-divider"></div>
+
+            <div class="delivery-info">
+                <div class="delivery-icon">📍</div>
+
+                <div>
+                    <h2>Delivery Address</h2>
+                    <p>{{ customer.address }}</p>
+                </div>
+            </div>
+
+            <div class="delivery-notice">
+                Your delicious meal is on its way! Thank you for choosing Meal Mate.
+            </div>
+
+            {% if cart_items %}
+                <a href="{% url 'customer_menu' cart_items.0.restaurant.id username %}"
+                   class="order-summary-button">
+                    Back to Restaurants
+                </a>
+            {% else %}
+                <a href="/" class="order-summary-button">
+                    Back to Home
+                </a>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</body>
+</html>

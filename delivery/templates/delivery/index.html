@@ -1,0 +1,174 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TasteHub | Your Food Companion</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="home-body">
+
+    <header class="home-navbar">
+        <a href="/" class="home-brand">
+            <span class="home-logo">T</span>
+            <span>Taste<span>Hub</span></span>
+        </a>
+
+        <nav class="home-nav">
+            <a href="#features">Why TasteHub?</a>
+            <a href="{% url 'open_signin' %}" class="home-signin">Sign In</a>
+            <a href="{% url 'open_signup' %}" class="home-nav-cta">
+                Get Started <span>→</span>
+            </a>
+        </nav>
+
+        <button class="home-menu-toggle" id="homeMenuToggle"
+                aria-label="Toggle navigation" aria-expanded="false">
+            ☰
+        </button>
+    </header>
+
+    <main>
+
+        <section class="home-hero">
+
+            <div class="home-copy">
+                <div class="home-eyebrow">
+                    <span class="home-eyebrow-dot"></span>
+                    YOUR DAILY FOOD COMPANION
+                </div>
+
+                <h1>
+                    Your cravings.<br>
+                    Your favourites.<br>
+                    <span>Your TasteHub.</span>
+                </h1>
+
+                <p class="home-description">
+                    Great food makes every day better. Discover delicious
+                    dishes, explore restaurant menus, and find something
+                    wonderful for your next meal.
+                </p>
+
+                <div class="home-actions">
+                    <a href="{% url 'open_signup' %}" class="home-primary-btn">
+                        Start Your Food Journey
+                        <span>→</span>
+                    </a>
+
+                    <a href="{% url 'open_signin' %}" class="home-secondary-btn">
+                        Sign In
+                    </a>
+                </div>
+
+                <div class="home-note">
+                    <span class="home-note-check">✓</span>
+                    <p>Easy to explore <span>·</span> Simple to order <span>·</span> Made for you</p>
+                </div>
+            </div>
+
+            <div class="home-visual">
+
+                <div class="home-visual-circle"></div>
+                <div class="home-visual-circle-small"></div>
+
+                <div class="home-food-card">
+                    <div class="home-food-image">
+                        <span>🍕</span>
+                    </div>
+                    <div class="home-food-caption">
+                        <div>
+                            <h3>Something delicious</h3>
+                            <p>Your next favourite awaits.</p>
+                        </div>
+                        <span class="home-food-star">✦</span>
+                    </div>
+                </div>
+
+                <div class="home-floating-card home-floating-top">
+                    <span class="home-floating-icon">🍔</span>
+                    <div>
+                        <strong>Craving something?</strong>
+                        <p>Find your favourite</p>
+                    </div>
+                </div>
+
+                <div class="home-floating-card home-floating-bottom">
+                    <span class="home-floating-icon">🥗</span>
+                    <div>
+                        <strong>So many choices</strong>
+                        <p>Explore the menu</p>
+                    </div>
+                </div>
+
+                <div class="home-decor home-decor-one">✳</div>
+                <div class="home-decor home-decor-two">✦</div>
+
+            </div>
+
+        </section>
+
+        <section class="home-features" id="features">
+
+            <div class="home-section-heading">
+                <span>THE TASTEHUB EXPERIENCE</span>
+                <h2>Good food, made simple.</h2>
+            </div>
+
+            <div class="home-feature-grid">
+
+                <article class="home-feature-card">
+                    <div class="home-feature-icon feature-green">⌕</div>
+                    <h3>Explore Restaurants</h3>
+                    <p>Discover restaurants and browse their delicious menus.</p>
+                </article>
+
+                <article class="home-feature-card">
+                    <div class="home-feature-icon feature-peach">♡</div>
+                    <h3>Choose Your Favourites</h3>
+                    <p>Find dishes you love and add them to your shopping cart.</p>
+                </article>
+
+                <article class="home-feature-card">
+                    <div class="home-feature-icon feature-yellow">✓</div>
+                    <h3>Easy Checkout</h3>
+                    <p>Review your selections and continue to checkout with ease.</p>
+                </article>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="home-footer">
+        <a href="/" class="home-footer-brand">Taste<span>Hub</span></a>
+        <p>Your food, your favourites!</p>
+        <span class="home-copyright">© 2026 TasteHub</span>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById("homeMenuToggle");
+        const homeNav = document.querySelector(".home-nav");
+
+        menuToggle.addEventListener("click", function () {
+            const isOpen = homeNav.classList.toggle("home-nav-open");
+
+            menuToggle.setAttribute("aria-expanded", isOpen);
+            menuToggle.textContent = isOpen ? "✕" : "☰";
+        });
+
+        homeNav.querySelectorAll("a").forEach(function (link) {
+            link.addEventListener("click", function () {
+                homeNav.classList.remove("home-nav-open");
+                menuToggle.setAttribute("aria-expanded", "false");
+                menuToggle.textContent = "☰";
+            });
+        });
+    </script>
+
+</body>
+</html>

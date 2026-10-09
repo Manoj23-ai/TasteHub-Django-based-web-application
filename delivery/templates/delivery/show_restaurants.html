@@ -1,0 +1,91 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurants</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <div class="restaurant-list-container">
+
+        <div class="restaurant-list-header">
+            <h1>Restaurants</h1>
+            <p>Manage your restaurants and menus</p>
+        </div>
+
+        <div class="restaurant-table-wrapper">
+
+            <table class="restaurant-table">
+
+                <thead>
+                    <tr>
+                        <th>Restaurant Name</th>
+                        <th>Picture</th>
+                        <th>Cuisine</th>
+                        <th>Rating</th>
+                        <th>Operations</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for r in restaurantList %}
+
+                    <tr>
+
+                        <td class="restaurant-name">
+                            {{ r.name }}
+                        </td>
+
+                        <td>
+                            <img class="restaurant-image" src="{{ r.picture }}">
+                        </td>
+
+                        <td>
+                            <span class="cuisine">
+                                {{ r.cuisine }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="rating">
+                                ★ {{ r.rating }}
+                            </span>
+                        </td>
+
+                        <td class="operations">
+
+                            <a href="{% url 'open_update_restaurant' r.id %}" class="operation update">
+                                Update Restaurant
+                            </a>
+
+                            <a href="{% url 'delete_restaurant' r.id %}" class="operation delete">
+                                Delete Restaurant
+                            </a>
+
+                            <a href="{% url 'open_update_menu' r.id %}" class="operation menu">
+                                Update Menu
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

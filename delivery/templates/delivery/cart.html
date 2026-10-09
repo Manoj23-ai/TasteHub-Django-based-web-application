@@ -1,0 +1,138 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cart - Meal Mate</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <div class="cart-page">
+
+        <header class="cart-header">
+            <div>
+                <h1>Meal Mate</h1>
+                <p>Welcome, {{ username }}!</p>
+            </div>
+
+            {% if itemList %}
+                <a href="{% url 'view_menu' itemList.0.restaurant.id username %}"
+                   class="cart-back-link">
+                    Continue Shopping
+                </a>
+            {% else %}
+                <a href="/" class="cart-back-link">
+                    Continue Shopping
+                </a>
+            {% endif %}
+        </header>
+
+        <main class="cart-content">
+
+            {% if messages %}
+                <div class="cart-messages">
+                    {% for message in messages %}
+                        <div class="cart-alert {{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="cart-title">
+                <h2>Your Shopping Cart</h2>
+                <p>Review your selected dishes before checkout.</p>
+            </div>
+
+            <div class="cart-table-card">
+                <div class="cart-table-wrapper">
+                    <table class="cart-table">
+                        <thead>
+                            <tr>
+                                <th>Item Image</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Price</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for item in itemList %}
+                                <tr>
+                                    <td>
+                                        <img
+                                            class="cart-item-image"
+                                            src="{{ item.picture }}"
+                                            alt="{{ item.name }}"
+                                        >
+                                    </td>
+
+                                    <td class="cart-item-name">
+                                        {{ item.name }}
+                                    </td>
+
+                                    <td class="cart-item-description">
+                                        {{ item.description }}
+                                    </td>
+
+                                    <td class="cart-item-price">
+                                        ₹{{ item.price }}
+                                    </td>
+
+                                    <td>
+                                        <form
+                                            action="{% url 'remove_from_cart' item.id username %}"
+                                            method="post"
+                                        >
+                                            {% csrf_token %}
+                                            <button
+                                                type="submit"
+                                                class="remove-button"
+                                            >
+                                                Remove
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="5" class="cart-empty">
+                                        Your cart is empty. Add some delicious dishes!
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="cart-summary">
+                <div>
+                    <p class="cart-total-label">Total Price</p>
+                    <h2>₹{{ total_price }}</h2>
+                </div>
+
+                {% if itemList %}
+                    <form action="{% url 'checkout' username %}" method="get">
+                        <button type="submit" class="checkout-button">
+                            Proceed to Checkout →
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="/" class="cart-back-link">
+                        Browse Restaurants
+                    </a>
+                {% endif %}
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+</html>
+```

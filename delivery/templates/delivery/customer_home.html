@@ -1,0 +1,81 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurants - Meal Mate</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <div class="customer-home-page">
+
+        <header class="customer-home-header">
+            <div>
+                <h1>Meal Mate</h1>
+                <p>Welcome, {{ username }}!</p>
+            </div>
+        </header>
+
+        <main class="customer-home-content">
+
+            <div class="customer-home-title">
+                <h2>Discover Restaurants</h2>
+                <p>Find your favourite cuisine and explore delicious menus.</p>
+            </div>
+
+            <div class="restaurant-grid">
+
+                {% for r in restaurantList %}
+
+                <div class="customer-restaurant-card">
+
+                    <img
+                        class="customer-restaurant-image"
+                        src="{{ r.picture }}"
+                        alt="{{ r.name }}"
+                    >
+
+                    <div class="customer-restaurant-details">
+
+                        <h3>{{ r.name }}</h3>
+
+                        <p class="customer-restaurant-cuisine">
+                            {{ r.cuisine }}
+                        </p>
+
+                        <div class="customer-restaurant-rating">
+                            <span>★</span>
+                            {{ r.rating }}
+                        </div>
+
+                        <a
+                            href="{% url 'view_menu' r.id username %}"
+                            class="view-menu-button"
+                        >
+                            View Menu →
+                        </a>
+
+                    </div>
+
+                </div>
+
+                {% empty %}
+
+                <div class="customer-no-restaurants">
+                    <h3>No restaurants available</h3>
+                    <p>Please check back later.</p>
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+</html>

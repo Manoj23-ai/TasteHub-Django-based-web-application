@@ -1,0 +1,121 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Meal Mate</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+
+    <div class="checkout-page">
+
+        <header class="checkout-header">
+            <h1>Meal Mate</h1>
+            <span>Secure Checkout</span>
+        </header>
+
+        <main class="checkout-container">
+
+            <div class="checkout-title">
+                <h2>Checkout</h2>
+                <p>Welcome, {{ username }}! Review your order before payment.</p>
+            </div>
+
+            {% if error %}
+
+                <div class="checkout-error">
+                    {{ error }}
+                </div>
+
+            {% else %}
+
+                <div class="checkout-card">
+
+                    <h3>Order Summary</h3>
+
+                    <div class="checkout-table-wrapper">
+                        <table class="checkout-table">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for item in cart_items %}
+                                <tr>
+                                    <td>{{ item.name }}</td>
+                                    <td>₹{{ item.price }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="checkout-total">
+                        <span>Total Amount</span>
+                        <strong>₹{{ total_price }}</strong>
+                    </div>
+
+                    <div class="checkout-payment">
+                        <h3>Payment Method</h3>
+
+                        <div class="payment-method">
+                            <span>Razorpay Secure Payment</span>
+                            <span class="payment-check">✓</span>
+                        </div>
+
+                        <button type="button" id="rzp-button">
+                            Pay ₹{{ total_price }} Securely
+                        </button>
+
+                        <p class="payment-note">
+                            Your payment will be processed securely through Razorpay.
+                        </p>
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+        </main>
+
+    </div>
+
+    {% if not error %}
+    <script>
+        var options = {
+            "key": "rzp_test_TgCrXxT29wjkca",
+            "amount": "{{ amount_paise }}",
+            "currency": "INR",
+            "name": "Meal Mate",
+            "description": "Order Payment",
+            "order_id": "{{ order_id }}",
+            "handler": function(response) {
+                alert("Payment response received. Verification is required.");
+            },
+            "prefill": {
+                "name": "{{ username|escapejs }}"
+            },
+            "theme": {
+                "color": "#16a34a"
+            }
+        };
+
+        var rzp = new Razorpay(options);
+
+        document.getElementById("rzp-button").onclick = function(e) {
+            rzp.open();
+            e.preventDefault();
+        };
+    </script>
+    {% endif %}
+
+</body>
+</html>
